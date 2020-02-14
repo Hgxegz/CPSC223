@@ -11,23 +11,38 @@ char intToAscii(int AssVal);
 
 int main(int argc, const char* argv[]){
   FILE *fin = fopen(argv[1] , "r");
-  bool check;
+  char fileOrNah;
   const char* names[] = {"NUL", "SOH","STX", "ETX","EOT", "ENQ","ACK", "BEL","BS",
                          "HT","LF", "VT","FF", "CR","SO", "SI","DLE", "DC1","DC2",
                          "DC3","DC4","NAK","SYN", "ETB","CAN", "EM","SUB", "ESC",
                          "FS", "GS","RS", "US"};
 
-  char binaryNums[10][BINARYSIZE + 1]; //creates an array of string size and how many inside
+  char binaryNums[128][BINARYSIZE + 1]; //creates an array of string size and how many inside
   char string[BINARYSIZE]; //get the strings from this
   char c;
-  /*if(argc != 2){ //if there is no file and from user input into console
-  for(int i = 0; i < 4; ++i){ //for loop to get the strings of binary numbers inputted
+  
+  int stringCounter=0, charCounter =0;
+
+  //read binary numbers from file
+  while((c = fgetc(fin)) != EOF){
+    if(c != ' ' && c != '\n' && c != '\0'){
+      binaryNums[stringCounter][charCounter] = c;
+      ++charCounter;
+      if(charCounter == BINARYSIZE){
+        binaryNums[stringCounter][8] = '\0';
+        ++stringCounter;
+        charCounter = 0;
+      }
+    }
+  }
+  //get the binary from user input
+  for(int i = 0; i < 10; ++i){ //for loop to get the strings of binary numbers inputted
       printf("Enter the binary number: ");
       scanf("%s" , binaryNums[i]);
       binaryNums[i][9] = '\0';
   }
   printf("\nORIGINAL\t\tASCII\t\tDECIMAL\t\tPARITY\n");
-  for(int j=0; j<4; ++j){
+  for(int j=0; j<128; ++j){
   int asciiNum = stringToInt(binaryNums[j]);
   char asciiChar = intToAscii(asciiNum);
   if(asciiNum < 32){
@@ -44,37 +59,7 @@ int main(int argc, const char* argv[]){
   }
 }
 }
-} else {  */
-  for(int i = 0; i < 10; ++i){ //for loop to get the strings of binary numbers inputted
-      for(int k = 0; k < 10 && ((c = fgetc(fin)) != EOF); ++k){
-        binaryNums[k][BINARYSIZE + 1] = '\0';
-        for(int j = 0; j < BINARYSIZE + 1; ++j){
-          binaryNums[k][j] = c;
-        }
-      }
-  }
-  for(int j = 0; j < 10; ++j){
-    printf("%s\n" , binaryNums[j]);
-  }
-  /*printf("\nORIGINAL\t\tASCII\t\tDECIMAL\t\tPARITY\n");
-  for(int j=0; j<4; ++j){
-  int asciiNum = stringToInt(binaryNums[j]);
-  char asciiChar = intToAscii(asciiNum);
-  if(asciiNum < 32){
-  if(asciiNum % 2 != 0){
-  printf("%s\t\t%s\t\t%d\t\t%s\n" , binaryNums[j] , names[asciiNum] , asciiNum , "ODD");
-  } else {
-  printf("%s\t\t%s\t\t%d\t\t%s\n" , binaryNums[j] , names[asciiNum] , asciiNum , "EVEN");
-  }
-} else {
-  if(asciiNum % 2 != 0){
-  printf("%s\t\t%c\t\t%d\t\t%s\n" , binaryNums[j] , asciiChar , asciiNum , "ODD");
-  } else {
-  printf("%s\t\t%c\t\t%d\t\t%s\n" , binaryNums[j] , asciiChar , asciiNum , "EVEN");
-  }
-}
-}
-}*/
+
   return 0;
 }
 
