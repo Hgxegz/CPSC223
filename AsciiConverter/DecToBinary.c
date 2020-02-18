@@ -5,20 +5,34 @@
 
 #define BINARYSIZE 8
 
+void decToBinary(char change[], int number);
 
 int main(int argc, const char* argv[]){
-  int number = 50;
   char binaryNum[BINARYSIZE] = {'0','0','0','0','0','0','0','0'};
-  int binChecker[BINARYSIZE] = {128, 64, 32, 16, 8, 4, 2, 1};
-  int i = BINARYSIZE - 1;
-  while(i >= 0){  
-    if(number >= binChecker[i]){
-      binaryNum[i] = '1';
-      number -= binChecker[i];
-      --i;
-      printf("%d" , number);
+  char final[BINARYSIZE];
+  char test[BINARYSIZE];
+  int number = 0;
+  for(int number = 0; number < 128; ++number){
+    if(number % 8 == 0){
+      printf("\n");
+    }
+  for(int i = 0; i < BINARYSIZE; ++i){
+    decToBinary(binaryNum, number);
+    printf("%c" , binaryNum[i]);
+  }
+    printf(" ");
+}
+  return 0;
+}
+
+void decToBinary(char change[], int number){
+  int check[BINARYSIZE] = {128, 64, 32, 16, 8, 4, 2, 1};
+  for(int i = 0; i < BINARYSIZE; ++i){
+    if(number >= check[i]){
+      change[i] = 1 + '0';
+      number -= check[i];
+    } else {
+      change[i] = '0';
     }
   }
-
-  return 0;
 }
